@@ -6,7 +6,7 @@ const notion = new Client({
 
 const databaseId = process.env.NOTION_DATABASE_ID;
 
-// 將 rich_text 陣列轉為 HTML，支援樣式、換行、文字顏色與背景色（使用 inline style）
+// 將 rich_text 陣列轉為 HTML，支援基本樣式、換行與顏色
 function renderRichText(blocks) {
   return blocks.map(b => {
     let text = b.plain_text;
