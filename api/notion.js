@@ -47,14 +47,25 @@ function renderRichText(blocks) {
       "red_background": "bg-red-100"
     };
 
-    const colorClass = colorMap[b.annotations.color] || "";
-    if (colorClass) {
-      text = `<span class=\"${colorClass}\">${text}</span>`;
+    let textColor = "";
+    let bgColor = "";
+    const color = b.annotations.color;
+
+    if (color.endsWith("_background")) {
+      bgColor = colorMap[color] || "";
+      textColor = "text-black"; // 預設背景色用黑字提高對比
+    } else {
+      textColor = colorMap[color] || "";
+    }
+
+    const classList = [textColor, bgColor].filter(Boolean).join(" ");
+    if (classList) {
+      text = `<span class="${classList}">${text}</span>`;
     }
 
     // 連結處理
     if (b.href) {
-      text = `<a href=\"${b.href}\" target=\"_blank\" class=\"underline text-blue-600\">${text}</a>`;
+      text = `<a href="${b.href}" target="_blank" class="underline text-blue-600">${text}</a>`;
     }
 
     return text;
