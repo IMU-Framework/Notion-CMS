@@ -6,7 +6,7 @@ const notion = new Client({
 
 const databaseId = process.env.NOTION_DATABASE_ID;
 
-// 將 rich_text 陣列轉為 HTML，支援樣式與換行
+// 將 rich_text 陣列轉為 HTML，支援樣式、換行、文字顏色與背景色
 function renderRichText(blocks) {
   return blocks.map(b => {
     let text = b.plain_text;
@@ -23,9 +23,38 @@ function renderRichText(blocks) {
     if (b.annotations.underline) text = `<u>${text}</u>`;
     if (b.annotations.strikethrough) text = `<s>${text}</s>`;
 
+    // 顏色處理
+    const colorMap = {
+      "default": "",
+      "gray": "text-gray-500",
+      "brown": "text-amber-900",
+      "orange": "text-orange-600",
+      "yellow": "text-yellow-500",
+      "green": "text-green-600",
+      "blue": "text-blue-600",
+      "purple": "text-purple-600",
+      "pink": "text-pink-500",
+      "red": "text-red-600",
+
+      "gray_background": "bg-gray-200",
+      "brown_background": "bg-amber-100",
+      "orange_background": "bg-orange-100",
+      "yellow_background": "bg-yellow-100",
+      "green_background": "bg-green-100",
+      "blue_background": "bg-blue-100",
+      "purple_background": "bg-purple-100",
+      "pink_background": "bg-pink-100",
+      "red_background": "bg-red-100"
+    };
+
+    const colorClass = colorMap[b.annotations.color] || "";
+    if (colorClass) {
+      text = `<span class=\"${colorClass}\">${text}</span>`;
+    }
+
     // 連結處理
     if (b.href) {
-      text = `<a href="${b.href}" target="_blank" class="text-blue-600 underline">${text}</a>`;
+      text = `<a href=\"${b.href}\" target=\"_blank\" class=\"underline text-blue-600\">${text}</a>`;
     }
 
     return text;
