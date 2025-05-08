@@ -31,6 +31,8 @@ module.exports = async (req, res) => {
         image: page.properties.Image?.url || "",
         category: page.properties.Category?.select?.name || "",
         date: page.properties.Date?.date?.start || "",
+        hex: page.properties["Hex Code"]?.rich_text?.[0]?.plain_text || ""
+        // return raw.startsWith("#") ? raw : "#" + raw;
       };
     });
 
