@@ -6,11 +6,10 @@ const notion = new Client({
 
 const databaseId = process.env.NOTION_DATABASE_ID;
 
-// 將 rich_text 陣列轉為 HTML，支援樣式、換行、文字顏色與背景色
+// 將 rich_text 陣列轉為 HTML，支援樣式、換行、文字顏色與背景色（使用 inline style）
 function renderRichText(blocks) {
   return blocks.map(b => {
     let text = b.plain_text;
-
     if (!text) return "";
 
     // 換行處理
@@ -23,46 +22,19 @@ function renderRichText(blocks) {
     if (b.annotations.underline) text = `<u>${text}</u>`;
     if (b.annotations.strikethrough) text = `<s>${text}</s>`;
 
-    // 顏色處理
-    const colorMap = {
-      "default": "",
-      "gray": "text-gray-500",
-      "brown": "text-amber-900",
-      "orange": "text-orange-600",
-      "yellow": "text-yellow-500",
-      "green": "text-green-600",
-      "blue": "text-blue-600",
-      "purple": "text-purple-600",
-      "pink": "text-pink-500",
-      "red": "text-red-600",
-
-      "gray_background": "bg-gray-200",
-      "brown_background": "bg-amber-100",
-      "orange_background": "bg-orange-100",
-      "yellow_background": "bg-yellow-100",
-      "green_background": "bg-green-100",
-      "blue_background": "bg-blue-100",
-      "purple_background": "bg-purple-100",
-      "pink_background": "bg-pink-100",
-      "red_background": "bg-red-100"
-    };
-
-    let textColorClass = "";
-    let bgColorClass = "";
+    // 顏色處理（使用 inline style）
     const color = b.annotations.color;
+    let style = "";
 
     if (color.endsWith("_background")) {
-      bgColorClass = colorMap[color] || "";
-    } else {
-      textColorClass = colorMap[color] || "";
+      const base = color.replace("_background", "");
+      style += `background-color: ${getCssColor(base, true)}; color: black;`;
+    } else if (color !== "default") {
+      style += `color: ${getCssColor(color)};`;
     }
 
-    // 同時存在時包兩層 span
-    if (textColorClass && bgColorClass) {
-      text = `<span class="${bgColorClass}"><span class="${textColorClass}">${text}</span></span>`;
-    } else if (textColorClass || bgColorClass) {
-      const className = textColorClass || bgColorClass;
-      text = `<span class="${className}">${text}</span>`;
+    if (style) {
+      text = `<span style="${style}">${text}</span>`;
     }
 
     // 連結處理
@@ -72,6 +44,19 @@ function renderRichText(blocks) {
 
     return text;
   }).join("");
+}
+
+// 對應 Notion 色彩為 CSS 顏色值
+function getCssColor(name, isBg = false) {
+  const map = {
+    gray: "#6B7280", red: "#DC2626", yellow: "#FBBF24", green: "#16A34A",
+    blue: "#2563EB", purple: "#7C3AED", pink: "#EC4899", brown: "#92400E",
+  };
+  const bgMap = {
+    gray: "#E5E7EB", red: "#FECACA", yellow: "#FEF3C7", green: "#D1FAE5",
+    blue: "#DBEAFE", purple: "#EDE9FE", pink: "#FCE7F3", brown: "#F3E8E0",
+  };
+  return isBg ? (bgMap[name] || "#F3F4F6") : (map[name] || "#111827");
 }
 
 module.exports = async (req, res) => {
