@@ -18,7 +18,7 @@ module.exports = async (req, res) => {
       },
       sorts: [
         {
-          property: "Date",
+          timestamp: "created_time",
           direction: "descending",
         },
       ],
