@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>標單表格</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @media print {
+      body {
+        width: 210mm;
+        height: 297mm;
+        margin: 0;
+      }
+      .print-a4 {
+        page-break-after: always;
+      }
+    }
+  </style>
+</head>
+<body class="bg-white text-gray-800 p-4">
+  <div class="max-w-5xl mx-auto print-a4">
+    <h1 class="text-2xl font-bold mb-6 text-center">工程標單表格</h1>
+    <div class="overflow-x-auto">
+      <table class="min-w-full border border-gray-400 text-sm table-auto">
+        <thead>
+          <tr class="bg-gray-100">
+            <th class="border border-gray-300 px-2 py-2">工程項目</th>
+            <th class="border border-gray-300 px-2 py-2">工種</th>
+            <th class="border border-gray-300 px-2 py-2">規格描述</th>
+            <th class="border border-gray-300 px-2 py-2 text-right">數量</th>
+            <th class="border border-gray-300 px-2 py-2">單位</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="border border-gray-300 px-2 py-1">1F 天花工程</td>
+            <td class="border border-gray-300 px-2 py-1">泥作</td>
+            <td class="border border-gray-300 px-2 py-1">RC 樑底抹平處理</td>
+            <td class="border border-gray-300 px-2 py-1 text-right">25</td>
+            <td class="border border-gray-300 px-2 py-1">m²</td>
+          </tr>
+          <tr>
+            <td class="border border-gray-300 px-2 py-1">1F 地坪工程</td>
+            <td class="border border-gray-300 px-2 py-1">水電</td>
+            <td class="border border-gray-300 px-2 py-1">地面管線預埋</td>
+            <td class="border border-gray-300 px-2 py-1 text-right">10</td>
+            <td class="border border-gray-300 px-2 py-1">項</td>
+          </tr>
+          <tr>
+            <td class="border border-gray-300 px-2 py-1">2F 間隔工程</td>
+            <td class="border border-gray-300 px-2 py-1">木作</td>
+            <td class="border border-gray-300 px-2 py-1">輕鋼架隔間安裝</td>
+            <td class="border border-gray-300 px-2 py-1 text-right">15</td>
+            <td class="border border-gray-300 px-2 py-1">式</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="mt-4 text-sm text-right text-gray-500">最後更新時間：2025/05/12</p>
+  </div>
+</body>
+</html>
