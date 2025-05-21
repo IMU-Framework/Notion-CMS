@@ -1,13 +1,15 @@
 # Notion CMS with Tailwind + Vercel Serverless
 
 ## 結構
+```
 notion-cms01/
 ├── api/
 │   └── notion.js          # ✅ Vercel Serverless Function：作為前端 fetch 的 Notion API proxy
 ├── public/
 │   └── index.html         # ✅ 前端主頁，使用 Tailwind CSS + JS 動態渲染 Notion 資料
 ├── package.json           # ✅ 定義 Node.js 專案依賴，目前只需 @notionhq/client
-└── README.md 
+└── README.md
+```
 
 ## 使用說明
 
